@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 
 namespace TechTalk.SpecFlow.Reporting.MsTestExecutionReport
 {
@@ -8,14 +6,14 @@ namespace TechTalk.SpecFlow.Reporting.MsTestExecutionReport
     {
         public string XmlTestResult { get; private set; }
 
-        public MsTestExecutionReportParameters(string projectFile, string xmlTestResult, string outputFile, string xsltFile)
-            : base(projectFile, outputFile, xsltFile)
+        public MsTestExecutionReportParameters(string projectFile, string defaultNamespace, string xmlTestResult, string outputFile, string xsltFile)
+            : base(projectFile, defaultNamespace, outputFile, xsltFile)
         {
             this.XmlTestResult = Path.GetFullPath(xmlTestResult);
         }
 
-        public MsTestExecutionReportParameters(string projectname, string featureLanguage, string xmlTestResult, string outputFile, string xsltFile)
-            : base(projectname, featureLanguage, outputFile, xsltFile)
+        public MsTestExecutionReportParameters(string projectName, string featureLanguage, string defaultNamespace, string xmlTestResult, string outputFile, string xsltFile)
+            : base(projectName, featureLanguage, defaultNamespace, outputFile, xsltFile)
         {
             this.XmlTestResult = Path.GetFullPath(xmlTestResult);
         }

@@ -2,9 +2,7 @@
 using System.Globalization;
 using System.Xml;
 using System.Xml.Serialization;
-using TechTalk.SpecFlow.Generator.Configuration;
 using TechTalk.SpecFlow.Generator.Project;
-using TechTalk.SpecFlow.Tracing;
 
 namespace TechTalk.SpecFlow.Reporting.NUnitExecutionReport
 {
@@ -19,7 +17,7 @@ namespace TechTalk.SpecFlow.Reporting.NUnitExecutionReport
 
         private void TransformReport(ReportElements.NUnitExecutionReport report, SpecFlowProject specFlowProject)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(ReportElements.NUnitExecutionReport), 
+            XmlSerializer serializer = new XmlSerializer(typeof(ReportElements.NUnitExecutionReport),
                                                          ReportElements.NUnitExecutionReport.XmlNamespace);
 
             if (XsltHelper.IsXmlOutput(ReportParameters.OutputFile))
@@ -28,15 +26,16 @@ namespace TechTalk.SpecFlow.Reporting.NUnitExecutionReport
             }
             else
             {
-                XsltHelper.TransformHtml(serializer, report, ReportType, 
-                                         ReportParameters.OutputFile, specFlowProject.Configuration.SpecFlowConfiguration, 
+                XsltHelper.TransformHtml(serializer, report, ReportType,
+                                         ReportParameters.OutputFile, specFlowProject.Configuration.SpecFlowConfiguration,
                                          ReportParameters.XsltFile);
             }
         }
 
         public void GenerateAndTransformReport()
         {
-            var specFlowProject = MsBuildProjectReader.LoadSpecFlowProjectFromMsBuild(ReportParameters.ProjectFile);            
+            var specFlowProject = MsBuildProjectReader.LoadSpecFlowProjectFromMsBuild(ReportParameters.ProjectFile,
+                ReportParameters.DefaultNamespace);
 
             var report = GenerateReport(specFlowProject);
             TransformReport(report, specFlowProject);
@@ -58,7 +57,7 @@ namespace TechTalk.SpecFlow.Reporting.NUnitExecutionReport
 
         protected virtual void ExtendReport(ReportElements.NUnitExecutionReport report)
         {
-            
+
         }
 
         protected abstract XmlDocument LoadXmlTestResult();

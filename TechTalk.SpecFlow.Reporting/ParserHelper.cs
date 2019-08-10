@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using TechTalk.SpecFlow.Generator;
 using TechTalk.SpecFlow.Generator.Project;
 using TechTalk.SpecFlow.Parser;
 
@@ -12,7 +10,12 @@ namespace TechTalk.SpecFlow.Reporting
     {
         public static List<SpecFlowDocument> GetParsedFeatures(SpecFlowProject specFlowProject)
         {
-            return GetParsedFeatures(specFlowProject.FeatureFiles.Select(ff => ff.GetFullPath(specFlowProject.ProjectSettings)),
+            
+            return GetParsedFeatures(
+                Directory.EnumerateFiles(
+                    specFlowProject.ProjectSettings.ProjectFolder,
+                    "*.feature",
+                    SearchOption.AllDirectories),
                 specFlowProject.Configuration.SpecFlowConfiguration.FeatureLanguage);
         }
 

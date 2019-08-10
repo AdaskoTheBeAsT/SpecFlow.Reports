@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 
 namespace TechTalk.SpecFlow.Reporting
@@ -11,17 +10,21 @@ namespace TechTalk.SpecFlow.Reporting
         public string ProjectName { get; set; }
         public string FeatureLanguage { get; set; }
 
-        protected ReportParameters(string projectFile, string outputFile, string xsltFile)
+        public string DefaultNamespace { get; set; }
+
+        protected ReportParameters(string projectFile, string defaultNamespace, string outputFile, string xsltFile)
         {
             this.ProjectFile = projectFile;
+            DefaultNamespace = defaultNamespace;
             this.OutputFile = Path.GetFullPath(outputFile);
             this.XsltFile = string.IsNullOrEmpty(xsltFile) ? "" : Path.GetFullPath(xsltFile);
         }
 
-        protected ReportParameters(string projectName, string featureLanguage, string outputFile, string xsltFile)
+        protected ReportParameters(string projectName, string featureLanguage, string defaultNamespace, string outputFile, string xsltFile)
         {
             this.ProjectName = projectName;
             this.FeatureLanguage = featureLanguage;
+            DefaultNamespace = defaultNamespace;
             this.OutputFile = Path.GetFullPath(outputFile);
             this.XsltFile = string.IsNullOrEmpty(xsltFile) ? "" : Path.GetFullPath(xsltFile);
         }

@@ -1,12 +1,9 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Xml.Xsl;
-using TechTalk.SpecFlow.Configuration;
-using TechTalk.SpecFlow.Generator.Configuration;
 
 namespace TechTalk.SpecFlow.Reporting
 {

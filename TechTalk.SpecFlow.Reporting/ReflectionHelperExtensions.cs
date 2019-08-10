@@ -1,6 +1,3 @@
-using System;
-using System.Reflection;
-
 namespace TechTalk.SpecFlow.Reporting
 {
     static class ReflectionHelperExtensions

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
-using TechTalk.SpecFlow.Parser;
 
 namespace TechTalk.SpecFlow.Reporting.StepDefinitionReport.ReportElements
 {

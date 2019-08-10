@@ -7,15 +7,15 @@ namespace TechTalk.SpecFlow.Reporting.NUnitExecutionReport
         public string LabelledTestOutput { get; private set; }
         public string XmlTestResult { get; private set; }
 
-        public NUnitExecutionReportParameters(string projectFile, string xmlTestResult, string labelledTestOutput, string outputFile, string xsltFile)
-            : base(projectFile, outputFile, xsltFile)
+        public NUnitExecutionReportParameters(string projectFile, string defaultNamespace, string xmlTestResult, string labelledTestOutput, string outputFile, string xsltFile)
+            : base(projectFile, defaultNamespace, outputFile, xsltFile)
         {
             this.XmlTestResult = Path.GetFullPath(xmlTestResult);
             this.LabelledTestOutput = string.IsNullOrEmpty(labelledTestOutput) ? "" : Path.GetFullPath(labelledTestOutput);
         }
 
-        public NUnitExecutionReportParameters(string projectname, string featureLanguage, string xmlTestResult, string labelledTestOutput, string outputFile, string xsltFile)
-            : base(projectname, featureLanguage, outputFile, xsltFile)
+        public NUnitExecutionReportParameters(string projectName, string featureLanguage, string defaultNamespace, string xmlTestResult, string labelledTestOutput, string outputFile, string xsltFile)
+            : base(projectName, featureLanguage, defaultNamespace, outputFile, xsltFile)
         {
             this.XmlTestResult = Path.GetFullPath(xmlTestResult);
             this.LabelledTestOutput = string.IsNullOrEmpty(labelledTestOutput) ? "" : Path.GetFullPath(labelledTestOutput);

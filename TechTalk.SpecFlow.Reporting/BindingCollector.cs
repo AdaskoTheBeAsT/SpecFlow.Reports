@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+#if NETSTANDARD
+using System.Runtime.Loader;
+#endif
 using System.Text.RegularExpressions;
 using TechTalk.SpecFlow.Generator.Project;
 
@@ -102,6 +105,37 @@ namespace TechTalk.SpecFlow.Reporting
             return bindings;
         }
 
+#if NETSTANDARD
+        class CustomLoadContext : AssemblyLoadContext
+        {
+            public CustomLoadContext(string basePath)
+            {
+                this.Resolving += (context, assemblyName) =>
+                {
+                    string path = Path.Combine(basePath, assemblyName.Name + ".dll");
+                    if (File.Exists(path))
+                    {
+                        return context.LoadFromAssemblyPath(path);
+                    }
+                    return null;
+                };
+            }
+
+            protected override Assembly Load(AssemblyName assemblyName) => null;
+        }
+
+        internal static List<BindingInfo> CollectBindings(SpecFlowProject specFlowProject, string basePath)
+        {
+            var customContext = new CustomLoadContext(Assembly.GetExecutingAssembly().Location);
+            var customAssembly = customContext.LoadFromAssemblyName(typeof(BindingCollector).Assembly.GetName());
+            var bindingCollector = (BindingCollector)customAssembly.CreateInstance(typeof(BindingCollector).FullName);
+            var stepAssemblies = GetStepAssemblies(specFlowProject);
+
+            List<BindingInfo> bindings =
+                stepAssemblies.SelectMany(bindingCollector.CollectBindings).ToList();
+            return bindings;
+        }
+#else
         internal static List<BindingInfo> CollectBindings(SpecFlowProject specFlowProject, string basePath)
         {
             var reportingFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
@@ -125,8 +159,8 @@ namespace TechTalk.SpecFlow.Reporting
             AppDomain.Unload(appDomain);
             return bindings;
         }
-
-        private static IEnumerable<string> GetStepAssemblies(SpecFlowProject specFlowProject)
+#endif
+            private static IEnumerable<string> GetStepAssemblies(SpecFlowProject specFlowProject)
         {
             yield return specFlowProject.ProjectSettings.AssemblyName;
 
