@@ -7,7 +7,7 @@ namespace TechTalk.SpecFlow.Reporting
 {
     public sealed class AssemblyServices
     {
-        static private Assembly LoadAssemblyFrom(string name, string probingFolder) 
+        private static Assembly LoadAssemblyFrom(string name, string probingFolder) 
         {
             string[] nameParts = name.Split(new char[] {','}, 2);
             string assemblyName = nameParts[0];
@@ -29,7 +29,7 @@ namespace TechTalk.SpecFlow.Reporting
             }
         }
 	
-        static private Assembly LoadAssemblyFrom(string name, string[] probingPath) 
+        private static Assembly LoadAssemblyFrom(string name, string[] probingPath) 
         {
             foreach (string probingFolder in probingPath)
             {
@@ -40,12 +40,12 @@ namespace TechTalk.SpecFlow.Reporting
             return null;
         }
 
-        static public void SubscribeAssemblyResolve(params string[] probingPath) 
+        public static void SubscribeAssemblyResolve(params string[] probingPath) 
         {
             SubscribeAssemblyResolve(AppDomain.CurrentDomain, probingPath);
         }
 
-        static public void SubscribeAssemblyResolve(AppDomain appDomain, params string[] probingPath) 
+        public static void SubscribeAssemblyResolve(AppDomain appDomain, params string[] probingPath) 
         {
             AssemblyResolver resolver = new AssemblyResolver(probingPath);
             appDomain.AssemblyResolve += new ResolveEventHandler(resolver.AppDomain_AssemblyResolve);

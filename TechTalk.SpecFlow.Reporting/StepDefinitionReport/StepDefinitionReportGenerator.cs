@@ -29,8 +29,9 @@ namespace TechTalk.SpecFlow.Reporting.StepDefinitionReport
         public StepDefinitionReportGenerator(StepDefinitionReportParameters reportParameters)
         {
             ReportParameters = reportParameters;
-
-            specFlowProject = MsBuildProjectReader.LoadSpecFlowProjectFromMsBuild(
+            
+            var msbuildProjectReader = new MSBuildProjectReader();
+            specFlowProject = msbuildProjectReader.LoadSpecFlowProjectFromMsBuild(
                 reportParameters.ProjectFile,
                 reportParameters.DefaultNamespace);
             parsedSpecFlowDocuments = ParserHelper.GetParsedFeatures(specFlowProject);
